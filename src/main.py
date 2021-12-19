@@ -106,3 +106,4 @@ def check3():
 
 if __name__ == '__main__':
     check()
+    x =6

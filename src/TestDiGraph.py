@@ -1,7 +1,7 @@
 import unittest
 from DiGraph import DiGraph
 
-
+# todo- how to change things inside specifice test.
 class MyTestCase(unittest.TestCase):
     g1 = DiGraph()
     g1.add_node(1)
@@ -23,7 +23,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_e_size(self):
         size = 0
-        for i in self.g1.e_dictOfSrc: #לבדוק את האיתחול בפונקציות
+        for i in self.g1.e_dictOfSrc:
             size = size + len(self.g1.e_dictOfSrc[i])
         self.assertEqual(size, 6)
 
@@ -38,16 +38,16 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(self.g1.nodes, nodeDict)
 
     def test_add_node(self):
-        self.g1.add_node(8)
+        # self.g1.add_node(8)
         size = len(self.g1.nodes)
-        self.assertEqual(6, size)
+        self.assertEqual(5, size)
 
     def test_add_edge(self):
-        self.g1.add_edge(2, 5, 1)
+        # self.g1.add_edge(5, 1, 1)
         size = 0
         for i in self.g1.e_dictOfSrc:  # לבדוק את האיתחול בפונקציות
             size = size + len(self.g1.e_dictOfSrc[i])
-        self.assertEqual(7, size)
+        self.assertEqual(6, size)
 
 
 if __name__ == '__main__':

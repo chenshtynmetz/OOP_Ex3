@@ -9,6 +9,9 @@ class Node:
         self.info = ""
         self.wight = 0
 
+    def __repr__(self):
+        return f"pos: {self.pos}\nid: {self.id}"
+
 
 class DiGraph(GraphInterface):
     def __init__(self):
@@ -71,3 +74,6 @@ class DiGraph(GraphInterface):
             self.mc = self.mc + 1
             return True
         return False
+
+    def __str__(self):
+        return f"Edges:\n{self.e_dictOfSrc}\nNodes:{self.nodes}"

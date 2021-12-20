@@ -41,7 +41,7 @@ class DiGraph(GraphInterface):
         if id1 in self.nodes and id2 in self.nodes:
             self.e_dictOfSrc[id1][id2] = weight
             self.e_dictOfDest[id2][id1] = weight
-            self.mc = self.mc+1
+            self.mc = self.mc + 1
             return True
         return False
 
@@ -65,8 +65,8 @@ class DiGraph(GraphInterface):
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
         if node_id1 in self.e_dictOfDest[node_id2] and node_id2 in self.e_dictOfSrc[node_id1]:
-        # self.e_dictOfSrc.pop(self, self.e_dictOfSrc[node_id1][node_id2])
-        # self.e_dictOfSrc[node_id1].pop([node_id2])
+            # self.e_dictOfSrc.pop(self, self.e_dictOfSrc[node_id1][node_id2])
+            # self.e_dictOfSrc[node_id1].pop([node_id2])
             del self.e_dictOfSrc[node_id1][node_id2]
             self.mc = self.mc + 1
             return True

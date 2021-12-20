@@ -3,6 +3,7 @@ import math
 
 import mathplotlib.pyplot as plt
 from typing import List
+from queue import PriorityQueue
 from src.GeoLocation import GeoLocation
 from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
@@ -33,9 +34,21 @@ class GraphAlgo(GraphAlgoInterface):
             json.dump(self, fp=f, indent=4, default=lambda o: o.__dict__)
         return True
 
-    # def shortest_path(self, id1: int, id2: int) -> (float, list):
-    #
-    # def TSP(self, node_lst: List[int]) -> (List[int], float):
+    # def diakstra(self, ):
+
+    def shortest_path(self, id1: int, id2: int) -> (float, list):
+        PriorityQueue = []
+        for node in self.graph.nodes.values():
+            node.wight = math.inf
+        self.graph.nodes.get(id1).wight = 0
+        PriorityQueue.append(self.graph.nodes.get(self, id1))
+
+
+    def clean_tag(self):
+        for i in self.graph.nodes.values():
+            i.tag = 0
+
+            # def TSP(self, node_lst: List[int]) -> (List[int], float):
     #
     # def centerPoint(self) -> (int, float):
     #

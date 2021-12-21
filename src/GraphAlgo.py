@@ -38,25 +38,33 @@ class GraphAlgo(GraphAlgoInterface):
             # f.close()
         return True
 
-    # def shortest_path(self, id1: int, id2: int) -> (float, list):
+    def shortest_path(self, id1: int, id2: int) -> (float, list):
+        ans = []
+        self.diakstra(id1, id2)
+        ans.append(self.graph.nodes.get(id2))
+        node_temp = self.graph.nodes.get(id2).tag
+        while node_temp != id1:
+            ans.append(node_temp)
+            node_temp = self.graph.nodes.get(self.graph.nodes.get(node_temp).tag)
+        ans.append(self.graph.nodes.get(id1))
+        return self.graph.nodes.get(id2).weight, ans
 
-
-    def diakstra(self, id1: int, id2: int) -> (float):
-        Pqueue = PriorityQueue()
+    def diakstra(self, id1: int, id2: int):  # -> (float):
+        queue = PriorityQueue()
         for node in self.graph.nodes.values():
             node.weight = math.inf
         self.graph.nodes.get(id1).wight = 0
-        Pqueue.put(self.graph.nodes.get(id1).wight, self.graph.nodes.get(self, id1))
-        while not Pqueue.empty():
-            (tempDis, tempNode) = Pqueue.get()
+        queue.put(self.graph.nodes.get(id1).wight, self.graph.nodes.get(self, id1))
+        while not queue.empty():
+            (tempDis, tempNode) = queue.get()
             for i in self.graph.e_dictOfSrc.get(tempNode.id).keys():
-                if (tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i].weight < self.graph.nodes.get(i).weight):
-                    newDis = tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i]
-                    self.graph.nodes.get(i).weight = newDis
+                if tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i].weight < self.graph.nodes.get(i).weight:
+                    new_dis = tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i]
+                    self.graph.nodes.get(i).weight = new_dis
                     self.graph.nodes.get(i).tag = tempNode.id
-                    Pqueue.put(newDis, self.graph.nodes.get(i))
+                    queue.put(new_dis, self.graph.nodes.get(i))
 
-        return self.graph.nodes.get(id2).weight
+    # return self.graph.nodes.get(id2).weight
 
     def clean_tag(self):
         for i in self.graph.nodes.values():
@@ -67,8 +75,15 @@ class GraphAlgo(GraphAlgoInterface):
     def centerPoint(self) -> (int, float):
         min = math.inf
         ind = -1
-        # for node in self.graph.nodes.keys():
-        #     if node == 0:
+        for node in self.graph.nodes.keys():
+            self.diakstra(node, 0)
+            max_short_path = -1 * math.inf
+            if self.graph.nodes.get(node).weight > max_short_path:
+                max_short_path = self.graph.nodes.get(node).weight
+            if min > max_short_path:
+                min = max_short_path
+                ind = node
+        return ind, self.graph.nodes.get(ind).weight
 
     # def plot_graph(self) -> None:
 

@@ -7,10 +7,22 @@ class Node:
         self.pos = pos
         self.tag = 0
         self.info = ""
-        self.wight = 0
+        self.weight = 0
 
     def __repr__(self):
-        return f"pos: {self.pos}\nid: {self.id}"
+        return f'"pos": {self.pos.__str__()}\n"id": {self.id}'
+
+
+class Edge:
+    def __init__(self, src: int, dest: int, weight: float):
+        self.src = src
+        self.dest = dest
+        self.weight = weight
+        self.tag = 0
+        self.info = ""
+
+    def __repr__(self):
+        return f'"src": {self.src}\n"w": {self.weight}\n"dest": {self.dest}'
 
 
 class DiGraph(GraphInterface):
@@ -18,13 +30,14 @@ class DiGraph(GraphInterface):
         self.nodes = {}
         self.e_dictOfSrc = {}
         self.e_dictOfDest = {}
+        self.edges = {}
         self.mc = 0
 
     def v_size(self) -> int:
         return len(self.nodes)
 
     def e_size(self) -> int:
-        return len(self.e_dictOfSrc)
+        return len(self.edges)
 
     def get_all_v(self) -> dict:
         return self.nodes
@@ -42,8 +55,10 @@ class DiGraph(GraphInterface):
         if id1 in self.e_dictOfDest[id2]:
             return False
         if id1 in self.nodes and id2 in self.nodes:
-            self.e_dictOfSrc[id1][id2] = weight
-            self.e_dictOfDest[id2][id1] = weight
+            edge = Edge(id1, id2, weight)
+            self.edges[(id1, id2)] = edge
+            self.e_dictOfSrc[id1][id2] = edge
+            self.e_dictOfDest[id2][id1] = edge
             self.mc = self.mc + 1
             return True
         return False
@@ -68,12 +83,17 @@ class DiGraph(GraphInterface):
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
         if node_id1 in self.e_dictOfDest[node_id2] and node_id2 in self.e_dictOfSrc[node_id1]:
-            # self.e_dictOfSrc.pop(self, self.e_dictOfSrc[node_id1][node_id2])
-            # self.e_dictOfSrc[node_id1].pop([node_id2])
+            del self.edges[(node_id1, node_id2)]
             del self.e_dictOfSrc[node_id1][node_id2]
+            del self.e_dictOfDest[node_id2][node_id1]
             self.mc = self.mc + 1
             return True
         return False
 
     def __str__(self):
-        return f"Edges:\n{self.e_dictOfSrc}\nNodes:{self.nodes}"
+        # s = f"Edges:\n"
+        # for i in self.e_dictOfSrc:
+        #     for j in self.e_dictOfSrc:
+        #         s= s+ f"{self.e_dictOfSrc[i][j]}"
+        # s = s + f"Nodes:\n{self.nodes}"
+        return f'"Edges":\n{self.edges.values()}"Nodes":\n{self.nodes.values()}'

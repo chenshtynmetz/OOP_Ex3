@@ -1,7 +1,6 @@
 import json
 import math
 
-import mathplotlib.pyplot as plt
 from typing import List
 from queue import PriorityQueue
 from src.GeoLocation import GeoLocation
@@ -30,30 +29,16 @@ class GraphAlgo(GraphAlgoInterface):
 
     # todo how to save to json in the same way that they want?
     def save_to_json(self, file_name: str) -> bool:
+        data = f'"Edges":{self.graph.edges.values()}"Nodes:{self.graph.edges.values()}'
         with open(file_name, "w") as f:
-            json.dump(self, fp=f, indent=4, default=lambda o: o.__dict__)
+            json_object = json.dumps(data, indent=0, sort_keys=True, separators=('\n'))
+            f.write(json_object)
+            # data = f'"Edges": \n {self.graph.edges.values()}"Nodes:\n{self.graph.edges.values()}'
+            # json.dump(data, fp=f, indent=4, default=lambda o: o.__dict__)
+            # f.close()
         return True
 
-    # def diakstra(self, ):
-
-    def shortest_path(self, id1: int, id2: int) -> (float, list):
-        Pqueue = PriorityQueue()
-        for node in self.graph.nodes.values():
-            node.wight = math.inf
-        self.graph.nodes.get(id1).wight = 0
-        Pqueue.put(self.graph.nodes.get(id1).wight,self.graph.nodes.get(self, id1))
-        while not Pqueue.empty():
-            (tempDis, tempNode) = Pqueue.get()
-            for i in self.graph.e_dictOfSrc.get(tempNode.id).keys():
-                if (tempNode.wight + self.graph.e_dictOfSrc[tempNode.id][i] < self.graph.nodes.get(i).wight):
-                    newDis = tempNode.wight + self.graph.e_dictOfSrc[tempNode.id][i]
-                    self.graph.nodes.get(i).wight = newDis
-                    self.graph.nodes.get(i).tag = tempNode.id
-                    Pqueue.put(newDis, self.graph.nodes.get(i))
-
-        return self.graph.nodes.get(id2).wight
-
-
+    # def shortest_path(self, id1: int, id2: int) -> (float, list):
 
 
 
@@ -67,3 +52,13 @@ class GraphAlgo(GraphAlgoInterface):
     # def centerPoint(self) -> (int, float):
     #
     # def plot_graph(self) -> None:
+
+
+if __name__ == '__main__':
+    g = DiGraph()
+    t = (5, 6, 7)
+    g.add_node(5, GeoLocation(t))
+    g.add_node(3, GeoLocation(t))
+    g.add_edge(3, 5, 8)
+    alg = GraphAlgo(g)
+    alg.save_to_json("sve.json")

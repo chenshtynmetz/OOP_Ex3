@@ -41,16 +41,35 @@ class GraphAlgo(GraphAlgoInterface):
     # def shortest_path(self, id1: int, id2: int) -> (float, list):
 
 
+    def diakstra(self, id1: int, id2: int) -> (float):
+        Pqueue = PriorityQueue()
+        for node in self.graph.nodes.values():
+            node.weight = math.inf
+        self.graph.nodes.get(id1).wight = 0
+        Pqueue.put(self.graph.nodes.get(id1).wight, self.graph.nodes.get(self, id1))
+        while not Pqueue.empty():
+            (tempDis, tempNode) = Pqueue.get()
+            for i in self.graph.e_dictOfSrc.get(tempNode.id).keys():
+                if (tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i].weight < self.graph.nodes.get(i).weight):
+                    newDis = tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i]
+                    self.graph.nodes.get(i).weight = newDis
+                    self.graph.nodes.get(i).tag = tempNode.id
+                    Pqueue.put(newDis, self.graph.nodes.get(i))
 
+        return self.graph.nodes.get(id2).weight
 
     def clean_tag(self):
         for i in self.graph.nodes.values():
             i.tag = 0
 
-            # def TSP(self, node_lst: List[int]) -> (List[int], float):
-    #
-    # def centerPoint(self) -> (int, float):
-    #
+    # def TSP(self, node_lst: List[int]) -> (List[int], float):
+
+    def centerPoint(self) -> (int, float):
+        min = math.inf
+        ind = -1
+        # for node in self.graph.nodes.keys():
+        #     if node == 0:
+
     # def plot_graph(self) -> None:
 
 

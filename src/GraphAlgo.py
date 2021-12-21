@@ -37,11 +37,25 @@ class GraphAlgo(GraphAlgoInterface):
     # def diakstra(self, ):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
-        PriorityQueue = []
+        Pqueue = PriorityQueue()
         for node in self.graph.nodes.values():
             node.wight = math.inf
         self.graph.nodes.get(id1).wight = 0
-        PriorityQueue.append(self.graph.nodes.get(self, id1))
+        Pqueue.put(self.graph.nodes.get(id1).wight,self.graph.nodes.get(self, id1))
+        while not Pqueue.empty():
+            (tempDis, tempNode) = Pqueue.get()
+            for i in self.graph.e_dictOfSrc.get(tempNode.id).keys():
+                if (tempNode.wight + self.graph.e_dictOfSrc[tempNode.id][i] < self.graph.nodes.get(i).wight):
+                    newDis = tempNode.wight + self.graph.e_dictOfSrc[tempNode.id][i]
+                    self.graph.nodes.get(i).wight = newDis
+                    self.graph.nodes.get(i).tag = tempNode.id
+                    Pqueue.put(newDis, self.graph.nodes.get(i))
+
+        return self.graph.nodes.get(id2).wight
+
+
+
+
 
 
     def clean_tag(self):

@@ -20,12 +20,17 @@ class GraphAlgo(GraphAlgoInterface):
 
     def load_from_json(self, file_name: str) -> bool:
         dict = {}
-        with open(file_name, "r") as f:
-            dict = json.load(f)
-        for n in dict["Nodes"]:
-            self.graph.add_node(n["id"], pos=GeoLocation(n["pos"]))
-        for e in dict["Edges"]:
-            self.graph.add_edge(e["src"], e["dest"], e["w"])
+        try:
+
+            with open(file_name, "r") as f:
+                dict = json.load(f)
+            for n in dict["Nodes"]:
+               # self.graph.add_node(n["id"], pos=GeoLocation(n["pos"]))
+                self.graph.add_node(n["id"], n["pos"])
+            for e in dict["Edges"]:
+                self.graph.add_edge(e["src"], e["dest"], e["w"])
+        except Exception:
+                return False
         return True
 
     # todo how to save to json in the same way that they want?

@@ -50,7 +50,7 @@ class GraphAlgo(GraphAlgoInterface):
         ans.append(self.graph.nodes.get(id1))
         return self.graph.nodes.get(id2).weight, ans
 
-    def diakstra(self, id1: int, id2: int):  # -> (float):
+    def diakstra(self, id1: int, id2: int): #float:
         queue = PriorityQueue()
         for node in self.graph.nodes.values():
             node.weight = math.inf
@@ -64,8 +64,7 @@ class GraphAlgo(GraphAlgoInterface):
                     self.graph.nodes.get(i).weight = new_dis
                     self.graph.nodes.get(i).tag = tempNode.id
                     queue.put(new_dis, self.graph.nodes.get(i))
-
-    # return self.graph.nodes.get(id2).weight
+       # return self.graph.nodes.get(id2).weight
 
     def clean_tag(self):
         for i in self.graph.nodes.values():

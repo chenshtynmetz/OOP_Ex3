@@ -62,6 +62,7 @@ class GraphAlgo(GraphAlgoInterface):
         queue = PriorityQueue()
         for node in self.graph.nodes.values():
             node.weight = math.inf
+        self.clean_tag()
         self.graph.nodes.get(id1).weight = 0.0
         queue.put((self.graph.nodes.get(id1).weight, self.graph.nodes.get(id1)))
         while not queue.empty():

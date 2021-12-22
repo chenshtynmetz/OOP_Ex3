@@ -57,13 +57,13 @@ class GraphAlgo(GraphAlgoInterface):
         queue = PriorityQueue()
         for node in self.graph.nodes.values():
             node.weight = math.inf
-        self.graph.nodes.get(id1).wight = 0
-        queue.put(self.graph.nodes.get(id1).wight, self.graph.nodes.get(self, id1))
+        self.graph.nodes.get(id1).weight = 0.0
+        queue.put((self.graph.nodes.get(id1).weight, self.graph.nodes.get(id1)))
         while not queue.empty():
             (tempDis, tempNode) = queue.get()
             for i in self.graph.e_dictOfSrc.get(tempNode.id).keys():
                 if tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i].weight < self.graph.nodes.get(i).weight:
-                    new_dis = tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i]
+                    new_dis = tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i].weight
                     self.graph.nodes.get(i).weight = new_dis
                     self.graph.nodes.get(i).tag = tempNode.id
                     queue.put((new_dis, self.graph.nodes.get(i)))

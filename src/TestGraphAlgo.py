@@ -7,7 +7,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_load_from_json(self):
         graphAlgo = GraphAlgo()
-        self.assertFalse(graphAlgo.load_from_json("somthing.json"))
+        self.assertFalse(graphAlgo.load_from_json("somthing.json")) #
         self.assertTrue(graphAlgo.load_from_json("./data/A0.json"))  # graph with pos
         self.assertTrue(graphAlgo.load_from_json("./data/T0.json"))  # graph without pos
 

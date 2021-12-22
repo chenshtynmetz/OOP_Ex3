@@ -22,9 +22,9 @@ class GraphAlgo(GraphAlgoInterface):
         dict = {}
         with open(file_name, "r") as f:
             dict = json.load(f)
-        for n in dict["Nodes"].values():
+        for n in dict["Nodes"]:
             self.graph.add_node(n["id"], pos=GeoLocation(n["pos"]))
-        for e in dict["Edges"].values():
+        for e in dict["Edges"]:
             self.graph.add_edge(e["src"], e["dest"], e["w"])
         return True
 
@@ -32,7 +32,7 @@ class GraphAlgo(GraphAlgoInterface):
     def save_to_json(self, file_name: str) -> bool:
         data = f'"Edges":{self.graph.edges.values()}"Nodes:{self.graph.edges.values()}'
         with open(file_name, "w") as f:
-            json_object = json.dumps(data, indent=0, sort_keys=True, separators=('\n'))
+            json_object = json.dumps(str(self.graph), indent=0, sort_keys=True)
             f.write(json_object)
             # data = f'"Edges": \n {self.graph.edges.values()}"Nodes:\n{self.graph.edges.values()}'
             # json.dump(data, fp=f, indent=4, default=lambda o: o.__dict__)
@@ -48,9 +48,12 @@ class GraphAlgo(GraphAlgoInterface):
             ans.append(node_temp)
             node_temp = self.graph.nodes.get(self.graph.nodes.get(node_temp).tag)
         ans.append(self.graph.nodes.get(id1))
-        return self.graph.nodes.get(id2).weight, ans
+        distance = self.graph.nodes.get(id2).weight
+        return distance, ans
 
-    def diakstra(self, id1: int, id2: int): #float:
+    def diakstra(self, id1: int, id2: int):#-> (float)
+        if id1 == id2:
+            return 0
         queue = PriorityQueue()
         for node in self.graph.nodes.values():
             node.weight = math.inf
@@ -63,8 +66,9 @@ class GraphAlgo(GraphAlgoInterface):
                     new_dis = tempNode.weight + self.graph.e_dictOfSrc[tempNode.id][i]
                     self.graph.nodes.get(i).weight = new_dis
                     self.graph.nodes.get(i).tag = tempNode.id
-                    queue.put(new_dis, self.graph.nodes.get(i))
-       # return self.graph.nodes.get(id2).weight
+                    queue.put((new_dis, self.graph.nodes.get(i)))
+
+        return self.graph.nodes.get(id2).weight
 
     def clean_tag(self):
         for i in self.graph.nodes.values():
@@ -74,7 +78,25 @@ class GraphAlgo(GraphAlgoInterface):
         for i in self.graph.nodes.values():
             i.info = ''
 
-    # def TSP(self, node_lst: List[int]) -> (List[int], float):
+    def TSP(self, node_lst: List[int]) -> (List[int], float):
+        path = []
+        mini = math.inf
+        temp_key = -1
+        len_path = 0
+        temp_node = node_lst.pop(0)
+        path.append(temp_node)
+        while len(node_lst) != 0:
+            for node in node_lst:
+                dis = self.diakstra(temp_node , node)
+                if mini > dis:
+                    mini = dis
+                    temp_key = node
+            temp_node = node_lst.pop(temp_key)
+            path.append(temp_node)
+            len_path = len_path + mini
+            mini = math.inf
+        return path, len_path
+
 
     def centerPoint(self) -> (int, float):
         mini = math.inf
@@ -92,7 +114,7 @@ class GraphAlgo(GraphAlgoInterface):
     # def plot_graph(self) -> None:
 
     # reverse and regular because the function get a dict
-    def BFS(self, g: DiGraph, src_node: Node, dic: {}) -> bool:
+    def BFS(self, src_node: Node, dic: {}) -> bool:
         my_queue = [src_node]
         while len(my_queue) > 0:
             node_temp = my_queue.pop()

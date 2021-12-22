@@ -1,7 +1,7 @@
 import math
 
 
-class GeoLocation(tuple):
+class GeoLocation:
 
     def __init__(self, location: tuple = None):
         self.x = location[0]

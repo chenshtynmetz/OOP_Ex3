@@ -3,8 +3,9 @@ import math
 
 from typing import List
 from queue import PriorityQueue
+import queue
 from src.GeoLocation import GeoLocation
-from src.DiGraph import DiGraph
+from src.DiGraph import DiGraph, Node
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 
@@ -73,19 +74,34 @@ class GraphAlgo(GraphAlgoInterface):
     # def TSP(self, node_lst: List[int]) -> (List[int], float):
 
     def centerPoint(self) -> (int, float):
-        min = math.inf
+        mini = math.inf
         ind = -1
         for node in self.graph.nodes.keys():
             self.diakstra(node, 0)
             max_short_path = -1 * math.inf
             if self.graph.nodes.get(node).weight > max_short_path:
                 max_short_path = self.graph.nodes.get(node).weight
-            if min > max_short_path:
-                min = max_short_path
+            if mini > max_short_path:
+                mini = max_short_path
                 ind = node
         return ind, self.graph.nodes.get(ind).weight
 
     # def plot_graph(self) -> None:
+
+    def BFS(self, g:DiGraph, src_node: Node, dic: {}) -> bool:
+        my_queue = [src_node]
+        while len(my_queue) > 0:
+            node_temp = my_queue.pop()
+            for i in self.graph.e_dictOfSrc.get(node_temp).keys():
+                if node_temp.info == "white":
+                    edge_temp = self.graph.e_dictOfSrc.get(node_temp).i
+                    my_queue.append(self.graph.nodes.get(edge_temp.dest))
+            node_temp.info = "black"
+        for i in self.graph.nodes.keys():
+            if self.graph.nodes.get(i).info == "white":
+                return False
+        return True
+
 
 
 if __name__ == '__main__':

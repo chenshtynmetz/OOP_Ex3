@@ -43,8 +43,14 @@ with open('A0.json', 'r') as file:
             src_y = scale(src.y, margin, screen.get_height() - margin, min_y, max_y)
             dest_x = scale(dest.x, margin, screen.get_width() - margin, min_x, max_x)
             dest_y = scale(dest.y, margin, screen.get_height() - margin, min_y, max_y)
-            pygame.draw.line(screen, pygame.Color(255,250,250), (src_x, src_y), (dest_x, dest_y), width=2)
-
+            pygame.draw.line(screen, pygame.Color(255, 250, 250), (src_x, src_y), (dest_x, dest_y), width=2)
+            # pi = math.pi / 6
+            # x2 = dest_x - 12 * math.cos(math.atan2(dest_y - src_y, dest_x - src_x) + pi)
+            # y2 = dest_y - 12 * math.cos(math.atan2(dest_y - src_y, dest_x - src_x) + pi)
+            # x3 = dest_x - 12 * math.cos(math.atan2(dest_y - src_y, dest_x - src_x) - pi)
+            # y3 = dest_y - 12 * math.cos(math.atan2(dest_y - src_y, dest_x - src_x) - pi)
+            # points = [(dest_x-2, dest_y-2), (x2, y2), (x3 , y3)]
+            # pygame.draw.polygon(screen, pygame.Color(255, 250, 250), points, width=4)
         for node in alg.graph.nodes:
             x = scale(alg.graph.nodes.get(node).pos.x, margin, screen.get_width() - margin, min_x, max_x)
             y = scale(alg.graph.nodes.get(node).pos.y, margin, screen.get_height() - margin, min_y, max_y)

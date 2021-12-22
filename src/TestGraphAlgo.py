@@ -30,25 +30,28 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(graphAlgo.shortest_path(0, 2), (float('inf'), []))
 
     def test_centerPoint(self):
-        graphAlgo = GraphAlgo(DiGraph())
-        graphAlgo.load_from_json("A0.json")
-        print(graphAlgo.centerPoint())
-        self.assertEqual(graphAlgo.centerPoint(), (7, 6.806805834715163))
+        graphAlgo1 = GraphAlgo(DiGraph())
+        graphAlgo1.load_from_json("A0.json")
+        x = graphAlgo1.centerPoint()
+        print(x)
+        self.assertEqual(x, (7, 6.806805834715163))
+        graphAlgo2 = GraphAlgo(DiGraph())
+        graphAlgo2.load_from_json("A1.json")
+        y = graphAlgo2.centerPoint()
+        print(y)
+        self.assertEqual(y, (8, 9.925289024973141))
+        graphAlgo3 = GraphAlgo(DiGraph())
+        graphAlgo3.load_from_json("A2.json")
+        self.assertEqual(graphAlgo3.centerPoint(), (0, 7.819910602212574))
 
-        graphAlgo.load_from_json("./data/A1.json")
-        self.assertEqual(graphAlgo.centerPoint(), (8, 9.925289024973141))
-
-        graphAlgo.load_from_json("./data/A2.json")
-        self.assertEqual(graphAlgo.centerPoint(), (0, 7.819910602212574))
-
-        graphAlgo.load_from_json("./data/A3.json")
-        self.assertEqual(graphAlgo.centerPoint(), (2, 8.182236568942237))
-
-        graphAlgo.load_from_json("./data/A4.json")
-        self.assertEqual(graphAlgo.centerPoint(), (6, 8.071366078651435))
-
-        graphAlgo.load_from_json("./data/A5.json")
-        self.assertEqual(graphAlgo.centerPoint(), (40, 9.291743173960954))
+        # graphAlgo.load_from_json("./data/A3.json")
+        # self.assertEqual(graphAlgo.centerPoint(), (2, 8.182236568942237))
+        #
+        # graphAlgo.load_from_json("./data/A4.json")
+        # self.assertEqual(graphAlgo.centerPoint(), (6, 8.071366078651435))
+        #
+        # graphAlgo.load_from_json("./data/A5.json")
+        # self.assertEqual(graphAlgo.centerPoint(), (40, 9.291743173960954))
 
     # def test_centerPointOn1000Nodes(self):
     #     graphAlgo = GraphAlgo(DiGraph())

@@ -107,14 +107,22 @@ class GraphAlgo(GraphAlgoInterface):
         mini = math.inf
         ind = -1
         for node in self.graph.nodes.keys():
-            self.diakstra(node, 0)
+            self.clean_tag()
+            self.clean_info()
+            if node == 0:
+                self.diakstra(node, 1)
+            else:
+                self.diakstra(node, 0)
             max_short_path = -1 * math.inf
-            if self.graph.nodes.get(node).weight > max_short_path:
-                max_short_path = self.graph.nodes.get(node).weight
+            for other in self.graph.nodes.keys():
+                if other == node:
+                    continue
+                if self.graph.nodes.get(other).weight > max_short_path:
+                    max_short_path = self.graph.nodes.get(other).weight
             if mini > max_short_path:
                 mini = max_short_path
                 ind = node
-        return ind, self.graph.nodes.get(ind).weight
+        return ind, mini
 
     # def plot_graph(self) -> None:
 

@@ -71,6 +71,10 @@ class GraphAlgo(GraphAlgoInterface):
         for i in self.graph.nodes.values():
             i.tag = 0
 
+    def clean_info(self):
+        for i in self.graph.nodes.values():
+            i.info = ''
+
     # def TSP(self, node_lst: List[int]) -> (List[int], float):
 
     def centerPoint(self) -> (int, float):
@@ -88,13 +92,14 @@ class GraphAlgo(GraphAlgoInterface):
 
     # def plot_graph(self) -> None:
 
-    def BFS(self, g:DiGraph, src_node: Node, dic: {}) -> bool:
+    # reverse and regular because the function get a dict
+    def BFS(self, g: DiGraph, src_node: Node, dic: {}) -> bool:
         my_queue = [src_node]
         while len(my_queue) > 0:
             node_temp = my_queue.pop()
             for i in self.graph.e_dictOfSrc.get(node_temp).keys():
                 if node_temp.info == "white":
-                    edge_temp = self.graph.e_dictOfSrc.get(node_temp).i
+                    edge_temp = dic.get(node_temp).i
                     my_queue.append(self.graph.nodes.get(edge_temp.dest))
             node_temp.info = "black"
         for i in self.graph.nodes.keys():
@@ -102,6 +107,15 @@ class GraphAlgo(GraphAlgoInterface):
                 return False
         return True
 
+    def isConnect(self) -> bool:
+        head = self.graph.nodes.get(0)
+        self.clean_tag()
+        self.clean_info()
+        path = self.BFS(head, self.graph.e_dictOfSrc)
+        if not path:
+            return False
+        path = self.BFS(head, self.graph.e_dictOfDest)
+        return path
 
 
 if __name__ == '__main__':

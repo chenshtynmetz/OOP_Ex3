@@ -4,9 +4,10 @@ import math
 class GeoLocation:
 
     def __init__(self, location: tuple = None):
-        self.x = location[0]
-        self.y = location[1]
-        self.z = location[2]
+        pos = location.split(",")
+        self.x = pos[0]
+        self.y = pos[1]
+        self.z = pos[2]
 
     def distance(self, other):
         x_pow = math.pow(self.x - other.x)

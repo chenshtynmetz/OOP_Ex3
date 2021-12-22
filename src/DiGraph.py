@@ -2,9 +2,9 @@ from src.GraphInterface import GraphInterface
 from src.GeoLocation import GeoLocation
 
 class Node:
-    def __init__(self, _id: int, pos: GeoLocation):
+    def __init__(self, _id: int, pos: tuple):
         self.id = _id
-        self.pos = pos
+        self.pos = GeoLocation(pos)
         self.tag = 0
         self.info = ""
         self.weight = 0
@@ -63,7 +63,7 @@ class DiGraph(GraphInterface):
             return True
         return False
 
-    def add_node(self, node_id: int, pos: GeoLocation = None) -> bool:
+    def add_node(self, node_id: int, pos: tuple ) -> bool:
         if node_id in self.nodes:
             return False
         self.nodes[node_id] = Node(node_id, pos)

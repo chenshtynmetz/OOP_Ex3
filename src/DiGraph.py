@@ -63,7 +63,7 @@ class DiGraph(GraphInterface):
             return True
         return False
 
-    def add_node(self, node_id: int, pos: tuple ) -> bool:
+    def add_node(self, node_id: int, pos: tuple = None) -> bool:
         if node_id in self.nodes:
             return False
         self.nodes[node_id] = Node(node_id, pos)

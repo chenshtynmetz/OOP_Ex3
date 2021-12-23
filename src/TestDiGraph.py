@@ -1,6 +1,7 @@
 import unittest
 from DiGraph import DiGraph
 
+
 # todo- how to change things inside specifice test.
 class MyTestCase(unittest.TestCase):
     g1 = DiGraph()
@@ -32,7 +33,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_get_all_v(self):
         nodeDict = {}
-        for i in range(1,len(self.g1.nodes)+1):
+        for i in range(1, len(self.g1.nodes) + 1):
             nodeDict[i] = self.g1.nodes[i]
         # {1: self.g1.nodes[1], 2:self.g1.nodes[2], 3:self.g1.nodes[]}
         self.assertEqual(self.g1.nodes, nodeDict)

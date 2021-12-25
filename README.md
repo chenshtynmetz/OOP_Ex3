@@ -7,18 +7,18 @@ the node class present a vertex that include: id (int), location(Geolocation), i
 ### Edge:
 the edge class present a edge on the graph that include: source node(Node), destination node(Node), weight (flout), information (string) and tag (int).<br /> ??This class implements get and set methods.
 ### DiGraph:
-this object present the graph. This class include a few dictionaries:<br /> 1.nodes: a hash of all the nodes.<br /> 2.edges: a hash of all the edges.<br /> 3.e_dictOfSrc: a dictionary ?(that for all node on the graph, keep a hashmap) that the key is node that connect to our node with edge and the value is the edge.<br /> 4.e_dictOfDest: the opsite from the e_dictOfSrc.<br /> This class implements get and set methods.<br /> In addition this class implemntes the functions:<br /> addnode,<br /> removenoade,<br /> removeedge,<br /> connect- connect 2 nodes with edge,<br /> iteredge- a iterator of the edge,<br /> iternode- a iterator of the nodes,<br /> iteredge(int key)- a iterator of all the edge that connect to the node with id key.
+this object present the graph. This class include a few dictionaries:<br /> 1.nodes: a dictionary of all the nodes.<br /> 2.edges: a dictionary of all the edges.<br /> 3.e_dictOfSrc: a dictionary that for all node on the graph, keep a dictionary that the key is node that connect to our node with edge and the value is the edge.<br /> 4.e_dictOfDest: the opsite from the e_dictOfSrc.<br /> This class implements get and set methods.<br /> In addition this class implemntes the functions:<br /> addnode, removenoade, removeedge,  connect- connect 2 nodes with edge, v_size, e_size, get_all_v, all_in_edeges_of_node, all_out_edges_of_node, str
 ### GraphAlgo: 
 this class implements methods that activate algorithems on the graph:
-Isconnected: return true if the graph is connected. We implements BFS algorithem to help us with this methods.
-Center: conculate the center of the graph.
-Shortestpathdis: return the shortest path between to vertexes.
-Shortestpath: return all the vertex that need to pass for the short path in list.
-Tsp: conculate tsp problem.
-Save: save the graph to json file.
-Load: load graph
+Isconnected: return true if the graph is connected. We implements BFS algorithem to help us with this methods.<br />
+Center: conculate the center of the graph.<br />
+Shortestpath: return the shortest path between to vertexes and all the vertex that need to pass for the short path in list.<br />
+Tsp: conculate tsp problem.<br />
+Save: save the graph to json file.<br />
+Load: load graph.<br />
 
 #### running times on big graphs:
+you can see our result on our Wiki page {adrees}
 ##### load:
 1000: 
 10000: 

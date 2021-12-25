@@ -3,11 +3,11 @@
 ### In this task we asked to peresent graph and do algorinms on him in Pyhton.
 ### For do this we implement a few classes:
 ### Node: 
-the node class present a vertex that include: id (int), location(Geolocation), information(String) tag (int) and weight(flout).	__??This class implements get and set methods.__
+the node class present a vertex that include: id (int), location(Geolocation), information(String) tag (int) and weight(flout).<br />	??This class implements get and set methods.
 ### Edge:
-the edge class present a edge on the graph that include: source node(Node), destination node(Node), weight (flout), information (string) and tag (int).	__??This class implements get and set methods.__
+the edge class present a edge on the graph that include: source node(Node), destination node(Node), weight (flout), information (string) and tag (int).<br /> ??This class implements get and set methods.
 ### DiGraph:
-this object present the graph. This class include a few hashmap: __1.mapOfNode: a hash of all the nodes. __2.mapOfEdge: a hash of all the edges. __3.mapOfSrc: a hash that for all node on the graph, keep a hashmap that the key is node that connect to our node with edge and the value is the edge. __4.mapOfDst: the opsite from the mapOfSrc. __This class implements get and set methods. __In addition this class implemntes the functions: __addnode, __removenoade, __removeedge, __connect- connect 2 nodes with edge, __iteredge- a iterator of the edge, __iternode- a iterator of the nodes, __iteredge(int key)- a iterator of all the edge that connect to the node with id key.__
+this object present the graph. This class include a few dictionaries:<br /> 1.nodes: a hash of all the nodes.<br /> 2.edges: a hash of all the edges.<br /> 3.e_dictOfSrc: a dictionary ?(that for all node on the graph, keep a hashmap) that the key is node that connect to our node with edge and the value is the edge.<br /> 4.e_dictOfDest: the opsite from the e_dictOfSrc.<br /> This class implements get and set methods.<br /> In addition this class implemntes the functions:<br /> addnode,<br /> removenoade,<br /> removeedge,<br /> connect- connect 2 nodes with edge,<br /> iteredge- a iterator of the edge,<br /> iternode- a iterator of the nodes,<br /> iteredge(int key)- a iterator of all the edge that connect to the node with id key.
 ### GraphAlgo: 
 this class implements methods that activate algorithems on the graph:
 Isconnected: return true if the graph is connected. We implements BFS algorithem to help us with this methods.

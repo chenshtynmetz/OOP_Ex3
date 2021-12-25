@@ -3,7 +3,7 @@ import math
 import pygame
 import pygame as pygame
 
-from src.DiGraph import DiGraph
+from src.DiGraph import DiGraph, Node
 from src.GeoLocation import GeoLocation
 from src.GraphAlgo import GraphAlgo
 from types import SimpleNamespace
@@ -106,11 +106,12 @@ button_nadd = Button(pygame.Rect((90, 10), (120, 20)), "add node", (255, 255, 0)
 button_eadd = Button(pygame.Rect((90, 33), (120, 20)), "add edge", (255, 255, 0))
 button_nremove = Button(pygame.Rect((90, 56), (120, 20)), "remove node", (255, 255, 0))
 button_eremove = Button(pygame.Rect((90, 79), (120, 20)), "remove edge", (255, 255, 0))
-#
-# class NodeScreen:
-#     def __init__(self, rect: pygame.Rect, id):
-#         self.rect = rect
-#         self.id = id
+
+
+class NodeScreen:
+    def __init__(self, rect: pygame.Rect, id):
+        self.rect = rect
+        self.id = id
 
 
 def draw_arrow(src, dst, d, hi, color):
@@ -134,13 +135,21 @@ def draw_arrow(src, dst, d, hi, color):
     pygame.draw.polygon(screen, color, points)
 
 
-# def on_click(func):
-#     global result
-#     result = func()
-#     print(result)
+result = []
+nodes_screen = []
+tsp = []
 
 
-def draw(src1=-1):
+def on_click(button: Button, list: []):
+    global result
+    result = button.func(list)
+    print(result)
+
+
+stop = False
+
+
+def draw(remove):
     # if src1 != -1:
     #     src_text = Font.render(str(src1), True, (0, 0, 0))
     pygame.draw.rect(screen, button_center.color, button_center.rect)
@@ -154,17 +163,18 @@ def draw(src1=-1):
     pygame.draw.rect(screen, button_eremove.color, button_eremove.rect)
     if button_load.is_pressed:
         button_load_text = Font.render(button_load.text, True, (0, 250, 250))
-        alg.load_from_json("A2.json") #todo change this to user input
+        alg.load_from_json("A2.json")  # todo change this to user input
     else:
         button_load_text = Font.render(button_load.text, True, (0, 0, 0))
     if button_save.is_pressed:
         button_save_text = Font.render(button_save.text, True, (0, 250, 250))
-        alg.save_to_json("soe.json") #todo change this to user input
+        alg.save_to_json("soe.json")  # todo change this to user input
     else:
         button_save_text = Font.render(button_save.text, True, (0, 0, 0))
     if button_nadd.is_pressed:
         button_nadd_text = Font.render(button_nadd.text, True, (0, 250, 250))
-        alg.graph.add_node(100, (32, 34, 0)) #todo change this to user input
+        # alg.graph.add_node(100, (32, 34, 0))  # todo change this to user input
+        # button_nadd.func()
     else:
         button_nadd_text = Font.render(button_nadd.text, True, (0, 0, 0))
     if button_eadd.is_pressed:
@@ -179,7 +189,9 @@ def draw(src1=-1):
         button_nremove_text = Font.render(button_nremove.text, True, (0, 0, 0))
     if button_eremove.is_pressed:
         button_eremove_text = Font.render(button_eremove.text, True, (0, 250, 250))
-        alg.graph.remove_edge(5, 0)  # todo change this to user input
+        alg.graph.remove_edge(0, 1)
+        # if remove[0] != -1 and remove[1] != -1:
+        #     alg.graph.remove_edge(remove[0], remove[1])  # todo change this to user input
     else:
         button_eremove_text = Font.render(button_eremove.text, True, (0, 0, 0))
     for edge in alg.graph.edges.values():
@@ -189,11 +201,17 @@ def draw(src1=-1):
         src_y = scale(src.y, margin, screen.get_height() - margin, min_y, max_y)
         dest_x = scale(dest.x, margin, screen.get_width() - margin, min_x, max_x)
         dest_y = scale(dest.y, margin, screen.get_height() - margin, min_y, max_y)
-        draw_arrow((src_x, src_y), (dest_x, dest_y), 15, 5, (0, 0, 0))
+        if edge.src and edge.dest in result:
+            draw_arrow((src_x, src_y), (dest_x, dest_y), 15, 5, (0, 0, 150))
+        else:
+            draw_arrow((src_x, src_y), (dest_x, dest_y), 15, 5, (0, 0, 0))
     for node in alg.graph.nodes.values():
         x = scale(node.pos.x, margin, screen.get_width() - margin, min_x, max_x)
         y = scale(node.pos.y, margin, screen.get_height() - margin, min_y, max_y)
         pygame.draw.circle(screen, pygame.Color(255, 128, 0), (x, y), r)
+        node_text = Font.render(str(node.id), True, pygame.Color((0, 0, 244)))
+        screen.blit(node_text, (x - 8, y - 8))
+        nodes_screen.append(NodeScreen(pygame.Rect((x, y), (24, 24)), node.id))
         # node_screens.append(NodeScreen(pygame.Rect((x, y), (20, 20)), node.id))
     if button_center.is_pressed:
         button_center_text = Font.render(button_center.text, True, (0, 250, 250))
@@ -205,20 +223,23 @@ def draw(src1=-1):
         button_center_text = Font.render(button_center.text, True, (0, 0, 0))
     if button_tsp.is_pressed:
         button_tsp_text = Font.render(button_tsp.text, True, (0, 250, 250))
-        # text_filed = pygame.draw.rect(screen, pygame.Color(128, 0, 0), pygame.Rect((250, 250), (300, 100)))
-        # if keyboard:
-        #     text = eve.unicode
-        #     screen.blit(text, (text_filed.x, text_filed.y))
-        # path = alg.TSP([1, 5, 3])
-        # while len(path[0]) > 1:
-        #     first = path[0].pop(0)
-        #     second = path[0].pop(0)
-        #     path[0].insert(0, second)
-        #     s_node = alg.graph.nodes.get(first)
-        #     e_node = alg.graph.nodes.get(second)
-        #     draw_arrow((s_node.pos.x, s_node.pos.y), (e_node.pos.x, e_node.pos.y), 15, 5, (0, 157, 0))
+        # pygame.draw.rect(screen, stop_button.color, stop_button.rect)
+        # stop = True
+        # if stop_button.rect.collidepoint(eve.pos):
+        #     stop_button.pressed()
+        # if stop_button.is_pressed:
+        #     stop = False
+        #     on_click(button_tsp, tsp)
+        #     tsp.clear()
+        # else:
+        #     for event in pygame.event.get():
+        #         for n in nodes_screen:
+        #             if n.rect.collidepoint(event.pos):
+        #                 tsp.append(n.id)
     else:
         button_tsp_text = Font.render(button_tsp.text, True, (0, 0, 0))
+        # stop = False
+        # result.clear()
     if button_short.is_pressed:
         button_short_text = Font.render(button_short.text, True, (0, 250, 250))
         print(alg.shortest_path(0, 5))  # todo change this to user input
@@ -234,10 +255,13 @@ def draw(src1=-1):
     screen.blit(button_eadd_text, (button_eadd.rect.x + 10, button_eadd.rect.y))
     screen.blit(button_eremove_text, (button_eremove.rect.x + 10, button_eremove.rect.y))
 
+
 with open('A1.json', 'r') as file:
-    src = -1
-    button_center.func = alg.centerPoint()
-    # button_tsp.func = alg.TSP()
+    remove = (-1, -1)
+    button_center.func = alg.centerPoint
+    button_tsp.func = alg.TSP
+    button_nadd.func = alg.graph.add_node
+    stop_button = Button(pygame.Rect((500, 33), (50, 50)), "", pygame.Color(250, 0, 0))
     while True:
         for eve in pygame.event.get():
             if eve.type == pygame.QUIT:
@@ -246,12 +270,6 @@ with open('A1.json', 'r') as file:
             if eve.type == pygame.MOUSEBUTTONDOWN:
                 if button_center.rect.collidepoint(eve.pos):
                     button_center.pressed()
-                #         on_click(button_center.func)
-                #     else:
-                #         result.clear()
-                # for n in node_screens:
-                #     if n.rect.collidepoint(eve.pos):
-                #         src = n.id
                 if button_tsp.rect.collidepoint(eve.pos):
                     button_tsp.pressed()
                 if button_load.rect.collidepoint(eve.pos):
@@ -262,35 +280,44 @@ with open('A1.json', 'r') as file:
                     button_short.pressed()
                 if button_nadd.rect.collidepoint(eve.pos):
                     button_nadd.pressed()
+                    # if button_nadd.is_pressed:
+                    #     n1 = Node(alg.graph.v_size() + 1, eve.pos)
+                    #     alg.graph.add_node(n1.id)
                 if button_nremove.rect.collidepoint(eve.pos):
                     button_nremove.pressed()
                 if button_eadd.rect.collidepoint(eve.pos):
                     button_eadd.pressed()
                 if button_eremove.rect.collidepoint(eve.pos):
-                     button_eremove.pressed()
-                    # text_input_box = TextInputBox(50, 50, 400, Font)
-                    # group = pygame.sprite.Group(text_input_box)
-                    # run = True
-                    # while run:
-                    #     clock.tick(60)
-                    #     window = pygame.display.set_mode((500, 200))
-                    #     event_list = pygame.event.get()
-                    #     for event in event_list:
-                    #         if event.type == pygame.QUIT:
-                    #             run = False
-                    #     group.update(event_list)
-                    #
-                    #     window.fill(pygame.Color(0, 0, 0))
-                    #     group.draw(window)
-                    #     pygame.display.flip()
-                    #
-                    # pygame.quit()
-                    # screen = pygame.display.set_mode((WIDHT, HIGHT), depth=32)
-                    #     if eve.type == pygame.KEYDOWN:
-                    #         keyboard = True
-                    # if button_center.is_pressed:
+                    button_eremove.pressed()
+                    # if button_eremove.is_pressed:
+                    #     for n1 in nodes_screen:
+                    #         for n2 in nodes_screen:
+                    #             if n1 != n2:
+                    #                 if n1.rect.collidepoint(eve.pos) and n2.rect.collidepoint(eve.pos):
+                    #                     remove = (n1, n2)
+                # text_input_box = TextInputBox(50, 50, 400, Font)
+                # group = pygame.sprite.Group(text_input_box)
+                # run = True
+                # while run:
+                #     clock.tick(60)
+                #     window = pygame.display.set_mode((500, 200))
+                #     event_list = pygame.event.get()
+                #     for event in event_list:
+                #         if event.type == pygame.QUIT:
+                #             run = False
+                #     group.update(event_list)
+                #
+                #     window.fill(pygame.Color(0, 0, 0))
+                #     group.draw(window)
+                #     pygame.display.flip()
+                #
+                # pygame.quit()
+                # screen = pygame.display.set_mode((WIDHT, HIGHT), depth=32)
+                #     if eve.type == pygame.KEYDOWN:
+                #         keyboard = True
+                # if button_center.is_pressed:
 
-        draw(src)
+        draw(remove)
         pygame.display.update()
         screen.fill(pygame.Color(255, 250, 250))
         pygame.display.set_caption("Graph")

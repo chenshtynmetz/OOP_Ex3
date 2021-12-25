@@ -93,7 +93,7 @@ class GraphAlgo(GraphAlgoInterface):
         path.append(temp_node)
         while len(node_lst) != 0:
             for node in node_lst:
-                dis = self.diakstra(temp_node , node)
+                dis = self.diakstra(temp_node, node)
                 if mini > dis:
                     mini = dis
                     temp_key = node

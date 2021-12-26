@@ -82,14 +82,25 @@ class GraphAlgo(GraphAlgoInterface):
 
     # todo how to save to json in the same way that they want?
     def save_to_json(self, file_name: str) -> bool:
-        data = f'"Edges":{self.graph.edges.values()}"Nodes:{self.graph.edges.values()}'
-        with open(file_name, "w") as f:
-            json_object = json.dumps(str(self.graph), indent=0, sort_keys=True)
-            f.write(json_object)
-            # data = f'"Edges": \n {self.graph.edges.values()}"Nodes:\n{self.graph.edges.values()}'
-            # json.dump(data, fp=f, indent=4, default=lambda o: o.__dict__)
-            # f.close()
-        return True
+        if self.graph is None:
+            return False
+        dict = {"Edges": [], "Nodes": []}
+        for node in self.graph.nodes.values():
+            dict_node = {"id": node.id}
+            if node.pos is not None:
+                dict_node["pos"] = f'{node.pos[0]},{node.pos[1]},{node.pos[2]}'
+            dict["Nodes"].append(dict_node)
+        for edge in self.graph.edges.values():
+            dict_edge = {"src": edge.src, "w": edge.weight, "dest": edge.dest}
+            dict["Edges"].append(dict_edge)
+        try:
+            with open(file_name, "w") as f:
+                f.write(json.dumps(dict))
+                return True
+        except:
+            return False
+        finally:
+            f.close()
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         ans = []
@@ -137,8 +148,9 @@ class GraphAlgo(GraphAlgoInterface):
         temp_key = -1
         len_path = 0
         temp_node = node_lst.pop(0)
+        # node_lst.insert(0, temp_node)
         path.append(temp_node)
-        while len(node_lst) != 0:
+        while len(node_lst) > 0:
             for node in node_lst:
                 dis = self.diakstra(temp_node, node)
                 if mini > dis:
@@ -296,7 +308,10 @@ class GraphAlgo(GraphAlgoInterface):
         pygame.draw.rect(self.screen, self.button_eremove.color, self.button_eremove.rect)
         if self.button_load.is_pressed:
             button_load_text = self.Font.render(self.button_load.text, True, (0, 250, 250))
-            self.load_from_json("./data/A2.json")  # todo change this to user input
+            file = easygui.enterbox('enter path of json file:', 'load')
+            self.load_from_json(file)
+            self.button_load.pressed()
+            # self.load_from_json("./data/A2.json")
             self.min_x = float(min(list(self.graph.nodes.values()), key=lambda n: n.pos[0]).pos[0])
             self.max_x = float(max(list(self.graph.nodes.values()), key=lambda n: n.pos[0]).pos[0])
             self.min_y = float(min(list(self.graph.nodes.values()), key=lambda n: n.pos[1]).pos[1])
@@ -305,12 +320,18 @@ class GraphAlgo(GraphAlgoInterface):
             button_load_text = self.Font.render(self.button_load.text, True, (0, 0, 0))
         if self.button_save.is_pressed:
             button_save_text = self.Font.render(self.button_save.text, True, (0, 250, 250))
-            self.save_to_json("soe.json")  # todo change this to user input
+            file = easygui.enterbox('enter a path of a json file:', 'save')
+            self.save_to_json(file)
+            self.button_save.pressed()
         else:
             button_save_text = self.Font.render(self.button_save.text, True, (0, 0, 0))
         if self.button_nadd.is_pressed:
             button_nadd_text = self.Font.render(self.button_nadd.text, True, (0, 250, 250))
-            # alg.graph.add_node(100, (32, 34, 0))  # todo change this to user input
+            node_plus = easygui.enterbox("enter id and position of node:", 'add node')
+            temp_list = node_plus.split(",")
+            self.graph.add_node(temp_list[0], (temp_list[1], temp_list[2], temp_list[3]))
+            self.button_nadd.pressed()
+            # alg.graph.add_node(100, (32, 34, 0))  # todo fix it
             # button_nadd.func()
         else:
             button_nadd_text = self.Font.render(self.button_nadd.text, True, (0, 0, 0))
@@ -364,11 +385,21 @@ class GraphAlgo(GraphAlgoInterface):
             button_center_text = self.Font.render(self.button_center.text, True, (0, 0, 0))
         if self.button_tsp.is_pressed:
             button_tsp_text = self.Font.render(self.button_tsp.text, True, (0, 250, 250))
+            tsp_l = easygui.enterbox('enter list of node:', 'tsp')
+            temp_list = tsp_l.split(",")
+            int_list = []
+            for i in temp_list:
+                int_list.append(int(i))
+            easygui.msgbox("the tsp is:" + f'{self.TSP(int_list)}')
+            self.button_tsp.pressed()
         else:
             button_tsp_text = self.Font.render(self.button_tsp.text, True, (0, 0, 0))
         if self.button_short.is_pressed:
             button_short_text = self.Font.render(self.button_short.text, True, (0, 250, 250))
-            print(self.shortest_path(0, 5))  # todo change this to user input
+            s = easygui.enterbox('choose source node:', 'source node')
+            d = easygui.enterbox('choose destintion node:', 'destination node')
+            easygui.msgbox('the shoretest path is:' + f'{self.shortest_path(int(s), int(d))}')
+            self.button_short.pressed()
         else:
             button_short_text = self.Font.render(self.button_short.text, True, (0, 0, 0))
         self.screen.blit(button_center_text, (self.button_center.rect.x + 10, self.button_center.rect.y))

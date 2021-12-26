@@ -103,4 +103,4 @@ class DiGraph(GraphInterface):
         #     for j in self.e_dictOfSrc:
         #         s= s+ f"{self.e_dictOfSrc[i][j]}"
         # s = s + f"Nodes:\n{self.nodes}"
-        return f'"Edges":\n{self.edges.values()}"Nodes":\n{self.nodes.values()}'
+        return f'"Edges":{self.edges.values()}"Nodes": {self.nodes.values()}'

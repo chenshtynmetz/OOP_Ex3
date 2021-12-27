@@ -43,7 +43,8 @@ you can see our result on our Wiki page {adrees}
 1000: 
 
 ### How to run:
-to run the program plese enter the next line to the comand line: java -jar Ex2.jar and in the end the name of the json file, for example: G1.json 
+to run the program you need to run the main file. .<br />when the window open, you will can to activate the algorithems on the graph. .<br /> 
+**load/save:** enter path of json file in the window that open. **short path:** in the first window enter source node, in the second enter destination node.make sure that the 2 nodes is in the graph. the answer will be write on new window. **tsp:** enter a list of nodes on the window that will obe open. make sure that all the nodes is in the graph and write the list with only , between 2 node. for example: 2,4,12,1,42. **center:** the center of the graph will be repaint in other color.  
 
 ### Our GUI:
 to start our GUI you need to run the program in the way that we describe before, now it's possible to activate algoritemes on the graph, but if you want to change the graph, you need first to load the json file. 

@@ -2,7 +2,7 @@ import unittest
 from DiGraph import DiGraph
 
 
-# todo- how to change things inside specifice test.
+# tests of all the function on Digraph class
 class MyTestCase(unittest.TestCase):
     g1 = DiGraph()
     g1.add_node(1)

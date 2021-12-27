@@ -1,6 +1,7 @@
 import pygame
 
 
+# this class present a button on the window
 class Button:
     def __init__(self, rect: pygame.Rect, text: str, color, func=None):
         self.rect = rect

@@ -35,10 +35,6 @@ class GraphAlgo(GraphAlgoInterface):
         self.button_load = Button(pygame.Rect((10, 56), (70, 20)), "load", (255, 255, 0))
         self.button_save = Button(pygame.Rect((10, 79), (70, 20)), "save", (255, 255, 0))
         self.button_short = Button(pygame.Rect((10, 101), (120, 20)), "shortest path", (255, 255, 0))
-        # self.button_nadd = Button(pygame.Rect((90, 10), (120, 20)), "add node", (255, 255, 0))
-        # self.button_eadd = Button(pygame.Rect((90, 33), (120, 20)), "add edge", (255, 255, 0))
-        # self.button_nremove = Button(pygame.Rect((90, 56), (120, 20)), "remove node", (255, 255, 0))
-        # self.button_eremove = Button(pygame.Rect((90, 79), (120, 20)), "remove edge", (255, 255, 0))
         self.min_x = math.inf
         self.max_x = math.inf * -1
         self.min_y = math.inf

@@ -155,8 +155,10 @@ class GraphAlgo(GraphAlgoInterface):
                 dis = self.diakstra(temp_node, node)
                 if mini > dis:
                     mini = dis
-                    temp_key = node
+                    temp_key = node_lst.index(node)
+            # temp_node = node_lst.remove(temp_key)
             temp_node = node_lst.pop(temp_key)
+            # temp_node = node_lst.index()
             path.append(temp_node)
             len_path = len_path + mini
             mini = math.inf

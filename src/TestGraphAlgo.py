@@ -52,6 +52,26 @@ class MyTestCase(unittest.TestCase):
         graphAlgo6.load_from_json("./data/A5.json")
         self.assertEqual(graphAlgo6.centerPoint(), (40, 9.291743173960954))
 
+    def test_TSP(self):
+        g = DiGraph()
+        g.add_node(1)
+        g.add_node(2)
+        g.add_node(3)
+        g.add_node(4)
+        g.add_node(5)
+        g.add_edge(1, 2, 3)
+        g.add_edge(1, 3, 5)
+        g.add_edge(3, 2, 4)
+        g.add_edge(2, 5, 7)
+        g.add_edge(4, 1, 3)
+        g.add_edge(5, 2, 4)
+        g.add_edge(3, 1, 9)
+        g.add_edge(3, 4, 2)
+        g.add_edge(5, 1, 2)
+        alg = GraphAlgo(g)
+        cities = [3, 5, 1, 2]
+        ans = alg.TSP(cities)
+        self.assertEqual(ans, ([3, 2, 5, 1], 13.0))
     # def test_centerPointOn1000Nodes(self):
     #     graphAlgo = GraphAlgo(DiGraph())
     #     graphAlgo.load_from_json("1000Nodes.json")

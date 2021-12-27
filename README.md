@@ -19,28 +19,6 @@ Load: load graph.<br />
 
 #### running times on big graphs:
 you can see our result on our Wiki page {adrees}
-##### load:
-1000: 
-10000: 
-100000: 
-##### save:
-1000: 
-10000: 
-100000: 
-##### is connected:
-1000: 
-10000: 
-100000: 
-##### short path:
-1000: 
-10000: 
-100000: 
-##### tsp: 
-1000: 
-10000: 
-100000:
-##### center:
-1000: 
 
 ### How to run:
 to run the program you need to run the main file. .<br />when the window open, you will can to activate the algorithems on the graph. .<br /> 

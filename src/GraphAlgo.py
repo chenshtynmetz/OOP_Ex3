@@ -18,8 +18,11 @@ from src.GraphInterface import GraphInterface
 
 class GraphAlgo(GraphAlgoInterface):
 
-    def __init__(self, graph: DiGraph):
-        self.graph = graph
+    def __init__(self, graph: DiGraph = None):
+        if graph is None:
+            self.graph = DiGraph()
+        else:
+            self.graph = graph
         self.WIDHT = 800
         self.HIGHT = 600
         self.screen = pygame.display.set_mode((self.WIDHT, self.HIGHT), depth=32)
@@ -67,7 +70,7 @@ class GraphAlgo(GraphAlgoInterface):
                         x = random.uniform(35.19, 35.22)
                         y = random.uniform(32.05, 32.22)
                         pos = (x, y, 0.0)
-                        self.graph.add_node(n['id', pos])
+                        self.graph.add_node(n['id'], pos)
                 for ed in list_edge:
                     self.graph.add_edge(ed['src'], ed['dest'], ed['w'])
         except:
@@ -99,7 +102,9 @@ class GraphAlgo(GraphAlgoInterface):
     # this function calculate the shortest path between 2 vertexes on the graph with diakstra. return the distance and list of all the vertexes in the path.
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         ans = []
-        self.diakstra(id1, id2)
+        path = self.diakstra(id1, id2)
+        if path == math.inf:
+            return math.inf, []
         ans.insert(0, id2)
         node_temp = self.graph.nodes.get(id2).tag
         while node_temp != id1:
@@ -110,7 +115,7 @@ class GraphAlgo(GraphAlgoInterface):
         return distance, ans
 
     # diakstra algorithm
-    def diakstra(self, id1: int, id2: int):  # -> (float)
+    def diakstra(self, id1: int, id2: int):
         if id1 == id2:
             return 0
         queue = PriorityQueue()
@@ -216,8 +221,6 @@ class GraphAlgo(GraphAlgoInterface):
 
     # this function display the graph.
     def display(self):
-        self.button_center.func = self.centerPoint
-        self.button_tsp.func = self.TSP
         while True:
             for eve in pygame.event.get():
                 if eve.type == pygame.QUIT:

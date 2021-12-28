@@ -48,15 +48,17 @@ class DiGraph(GraphInterface):
 
     # return a dictionary of all the vertexes in the graph
     def get_all_v(self) -> dict:
+        # repr(self.nodes)
         return self.nodes
 
     # return a dictionary of all the edges that have the same specific destination vertex
     def all_in_edges_of_node(self, id1: int) -> dict:
-        return self.e_dictOfDest.get(self, id1)
+        return self.e_dictOfDest.get(id1)
 
     # return a dictionary of all the edges that have the same specific source vertex
     def all_out_edges_of_node(self, id1: int) -> dict:
-        return self.e_dictOfSrc.get(self, id1)
+        x = self.e_dictOfSrc.get(id1)
+        return x
 
     # return the number of update that the graph pass
     def get_mc(self) -> int:
@@ -109,5 +111,21 @@ class DiGraph(GraphInterface):
             return True
         return False
 
-    def __str__(self):
-        return f'"Edges":{self.edges.values()}"Nodes": {self.nodes.values()}'
+    def __repr__(self):
+        s = "Graph: |V|="
+        s = s + str(len(self.nodes))
+        s = s + ' , |E|='
+        s = s + str(len(self.edges))
+        s = s + '\n{'
+        counter = 0
+        for n in self.nodes.values():
+            s = s + str(n.id) + ": " + str(n.id)
+            s = s + ": |edge out| "
+            s = s + str(len(self.all_out_edges_of_node(n.id)))
+            s = s + " |edge in| "
+            s = s + str(len(self.all_in_edges_of_node(n.id)))
+            counter += 1
+            if counter != len(self.nodes):
+                s = s + ", "
+        s = s + "}"
+        return s

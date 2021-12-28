@@ -17,6 +17,10 @@ Tsp: conculate tsp problem.<br />
 Save: save the graph to json file.<br />
 Load: load graph.<br />
 
+### UML
+![UML](https://user-images.githubusercontent.com/93136824/147599297-27ffa24c-4ab2-4ceb-8cbf-ca3c03016bb1.jpg)
+
+
 #### running times on big graphs:
 you can see our result on our Wiki page {adrees}
 

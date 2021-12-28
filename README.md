@@ -21,7 +21,7 @@ Load: load graph.<br />
 ![UML1](https://user-images.githubusercontent.com/93136824/147604191-319422f5-4fcd-4160-b9ff-8906ba0ca73d.jpg)
 
 #### running times on big graphs:
-you can see our result on our [Wiki page] (https://github.com/chenshtynmetz/OOP_Ex3/wiki/compare-result-between-Java-and-Python)
+you can see our result on our [Wiki page](https://github.com/chenshtynmetz/OOP_Ex3/wiki/compare-result-between-Java-and-Python)
 
 ### How to run:
 to run the program you need to run the main file. .<br />when the window open, you will can to activate the algorithems on the graph. .<br /> 
